@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
@@ -12,9 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.room.Room
 import ni.edu.uam.inventarioacademico.data.local.InventarioDatabase
 import ni.edu.uam.inventarioacademico.data.repository.EquipoRepository
+import ni.edu.uam.inventarioacademico.data.repository.PrestamoRepository
+import ni.edu.uam.inventarioacademico.ui.screens.FormPrestamoScreen
 import ni.edu.uam.inventarioacademico.ui.screens.InventarioScreen
+import ni.edu.uam.inventarioacademico.ui.screens.PrestamoScreen
 import ni.edu.uam.inventarioacademico.ui.theme.InventarioAcademicoTheme
 import ni.edu.uam.inventarioacademico.viewmodel.EquipoViewModel
+import ni.edu.uam.inventarioacademico.viewmodel.PrestamoViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -29,12 +34,20 @@ class MainActivity : ComponentActivity() {
             "inventario_academico_db"
         ).build()
 
-        val repository = EquipoRepository(
+        val equipoRepository = EquipoRepository(
             db.equipoDao()
         )
 
-        val viewModel = EquipoViewModel(
-            repository
+        val prestamoRepository = PrestamoRepository(
+            db.prestamoDao()
+        )
+
+        val equipoViewModel = EquipoViewModel(
+            equipoRepository
+        )
+
+        val prestamoViewModel = PrestamoViewModel(
+            prestamoRepository
         )
 
         enableEdgeToEdge()
@@ -43,36 +56,59 @@ class MainActivity : ComponentActivity() {
 
             InventarioAcademicoTheme {
 
-                val equipos by viewModel.equipos.collectAsState()
+                val equipos by equipoViewModel.equipos.collectAsState()
+
+                val prestamos by prestamoViewModel.prestamos.collectAsState()
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { _ ->
 
-                    InventarioScreen(
-                        equipos = equipos,
+                    Column {
 
-                        onGuardarEquipo = {
-                                nombre,
-                                categoria,
-                                marca,
-                                serie ->
+                        InventarioScreen(
+                            equipos = equipos,
 
-                            viewModel.agregarEquipo(
-                                nombre,
-                                categoria,
-                                marca,
-                                serie
-                            )
-                        },
+                            onGuardarEquipo = {
+                                    nombre,
+                                    categoria,
+                                    marca,
+                                    serie ->
 
-                        onEliminarEquipo = { equipo ->
+                                equipoViewModel.agregarEquipo(
+                                    nombre,
+                                    categoria,
+                                    marca,
+                                    serie
+                                )
+                            },
 
-                            viewModel.eliminarEquipo(
-                                equipo
-                            )
-                        }
-                    )
+                            onEliminarEquipo = { equipo ->
+
+                                equipoViewModel.eliminarEquipo(
+                                    equipo
+                                )
+                            }
+                        )
+
+                        FormPrestamoScreen(
+                            onRegistrar = {
+                                    equipoId,
+                                    solicitante,
+                                    fecha ->
+
+                                prestamoViewModel.registrarPrestamo(
+                                    equipoId,
+                                    solicitante,
+                                    fecha
+                                )
+                            }
+                        )
+
+                        PrestamoScreen(
+                            prestamos = prestamos
+                        )
+                    }
                 }
             }
         }

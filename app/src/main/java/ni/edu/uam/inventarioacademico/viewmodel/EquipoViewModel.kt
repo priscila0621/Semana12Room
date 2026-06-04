@@ -59,4 +59,15 @@ class EquipoViewModel(
             )
         }
     }
+    fun eliminarEquipo(
+        equipo: Equipo
+    ) {
+
+        viewModelScope.launch {
+
+            repository.eliminar(
+                equipo
+            )
+        }
+    }
 }
