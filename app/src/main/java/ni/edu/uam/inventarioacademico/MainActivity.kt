@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.room.Room
 import ni.edu.uam.inventarioacademico.data.local.InventarioDatabase
 import ni.edu.uam.inventarioacademico.data.repository.EquipoRepository
-import ni.edu.uam.inventarioacademico.ui.screens.ListaEquiposScreen
+import ni.edu.uam.inventarioacademico.ui.screens.InventarioScreen
 import ni.edu.uam.inventarioacademico.ui.theme.InventarioAcademicoTheme
 import ni.edu.uam.inventarioacademico.viewmodel.EquipoViewModel
 
@@ -29,27 +29,41 @@ class MainActivity : ComponentActivity() {
             "inventario_academico_db"
         ).build()
 
-        val equipoRepository = EquipoRepository(
+        val repository = EquipoRepository(
             db.equipoDao()
         )
 
-        val equipoViewModel = EquipoViewModel(
-            equipoRepository
+        val viewModel = EquipoViewModel(
+            repository
         )
 
         enableEdgeToEdge()
 
         setContent {
+
             InventarioAcademicoTheme {
 
-                val equipos by equipoViewModel.equipos.collectAsState()
+                val equipos by viewModel.equipos.collectAsState()
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { _ ->
 
-                    ListaEquiposScreen(
-                        equipos = equipos
+                    InventarioScreen(
+                        equipos = equipos,
+                        onGuardarEquipo = {
+                                nombre,
+                                categoria,
+                                marca,
+                                serie ->
+
+                            viewModel.agregarEquipo(
+                                nombre,
+                                categoria,
+                                marca,
+                                serie
+                            )
+                        }
                     )
                 }
             }

@@ -21,4 +21,11 @@ interface EquipoDao {
 
     @Query("SELECT * FROM equipos WHERE id = :id")
     suspend fun obtenerEquipoPorId(id: Int): Equipo?
+
+    @Query("""
+SELECT * FROM equipos
+WHERE nombre LIKE '%' || :texto || '%'
+OR numeroSerie LIKE '%' || :texto || '%'
+""")
+    fun buscarEquipos(texto: String): Flow<List<Equipo>>
 }
