@@ -9,8 +9,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.room.Room
 import ni.edu.uam.inventarioacademico.data.local.InventarioDatabase
+import ni.edu.uam.inventarioacademico.data.repository.EquipoRepository
 import ni.edu.uam.inventarioacademico.ui.screens.FormEquipoScreen
 import ni.edu.uam.inventarioacademico.ui.theme.InventarioAcademicoTheme
+import ni.edu.uam.inventarioacademico.viewmodel.EquipoViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -25,6 +27,14 @@ class MainActivity : ComponentActivity() {
             "inventario_academico_db"
         ).build()
 
+        val equipoRepository = EquipoRepository(
+            db.equipoDao()
+        )
+
+        val equipoViewModel = EquipoViewModel(
+            equipoRepository
+        )
+
         enableEdgeToEdge()
 
         setContent {
@@ -32,13 +42,16 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
-                ) {
+                ) { _ ->
 
                     FormEquipoScreen(
                         onGuardar = { nombre, categoria, marca, serie ->
 
-                            println(
-                                "Equipo: $nombre - $categoria - $marca - $serie"
+                            equipoViewModel.agregarEquipo(
+                                nombre,
+                                categoria,
+                                marca,
+                                serie
                             )
                         }
                     )
