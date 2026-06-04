@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
 
                     InventarioScreen(
                         equipos = equipos,
+
                         onGuardarEquipo = {
                                 nombre,
                                 categoria,
@@ -62,6 +63,13 @@ class MainActivity : ComponentActivity() {
                                 categoria,
                                 marca,
                                 serie
+                            )
+                        },
+
+                        onEliminarEquipo = { equipo ->
+
+                            viewModel.eliminarEquipo(
+                                equipo
                             )
                         }
                     )
