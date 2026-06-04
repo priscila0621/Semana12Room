@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +14,8 @@ import ni.edu.uam.inventarioacademico.data.local.entity.Equipo
 
 @Composable
 fun ListaEquiposScreen(
-    equipos: List<Equipo>
+    equipos: List<Equipo>,
+    onEliminar: (Equipo) -> Unit
 ) {
 
     LazyColumn {
@@ -32,6 +34,14 @@ fun ListaEquiposScreen(
                     Text("Categoría: ${equipo.categoria}")
                     Text("Marca: ${equipo.marca}")
                     Text("Serie: ${equipo.numeroSerie}")
+
+                    Button(
+                        onClick = {
+                            onEliminar(equipo)
+                        }
+                    ) {
+                        Text("Eliminar")
+                    }
                 }
             }
         }

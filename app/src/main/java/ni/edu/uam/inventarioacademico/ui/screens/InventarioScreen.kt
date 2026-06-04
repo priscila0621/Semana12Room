@@ -12,17 +12,25 @@ fun InventarioScreen(
         String,
         String,
         String
-    ) -> Unit
+    ) -> Unit,
+    onEliminarEquipo: (Equipo) -> Unit
 ) {
 
     Column {
+
+        DashboardScreen(
+            totalEquipos = equipos.size,
+            disponibles = equipos.count { it.disponible },
+            prestados = equipos.count { !it.disponible }
+        )
 
         FormEquipoScreen(
             onGuardar = onGuardarEquipo
         )
 
         ListaEquiposScreen(
-            equipos = equipos
+            equipos = equipos,
+            onEliminar = onEliminarEquipo
         )
     }
 }
