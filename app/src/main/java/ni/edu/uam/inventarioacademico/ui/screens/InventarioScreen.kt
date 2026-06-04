@@ -16,12 +16,18 @@ fun InventarioScreen(
     onEliminarEquipo: (Equipo) -> Unit
 ) {
 
+    val categoriaPrincipal = equipos
+        .groupBy { it.categoria }
+        .maxByOrNull { it.value.size }
+        ?.key ?: "N/A"
+
     Column {
 
         DashboardScreen(
             totalEquipos = equipos.size,
             disponibles = equipos.count { it.disponible },
-            prestados = equipos.count { !it.disponible }
+            prestados = equipos.count { !it.disponible },
+            categoriaPrincipal = categoriaPrincipal
         )
 
         FormEquipoScreen(

@@ -36,4 +36,18 @@ class PrestamoViewModel(
             )
         }
     }
+    fun registrarDevolucion(
+        prestamo: Prestamo,
+        fecha: String
+    ) {
+
+        viewModelScope.launch {
+
+            repository.actualizar(
+                prestamo.copy(
+                    fechaDevolucion = fecha
+                )
+            )
+        }
+    }
 }

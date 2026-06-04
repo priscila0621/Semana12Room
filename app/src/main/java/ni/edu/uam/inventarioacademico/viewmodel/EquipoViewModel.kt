@@ -38,10 +38,25 @@ class EquipoViewModel(
             )
         }
     }
-    fun eliminarEquipo(equipo: Equipo) {
+    fun actualizarEquipo(
+        equipo: Equipo
+    ) {
+        viewModelScope.launch {
+            repository.actualizar(equipo)
+        }
+    }
+    fun cambiarDisponibilidad(
+        equipo: Equipo,
+        disponible: Boolean
+    ) {
 
         viewModelScope.launch {
-            repository.eliminar(equipo)
+
+            repository.actualizar(
+                equipo.copy(
+                    disponible = disponible
+                )
+            )
         }
     }
 }
