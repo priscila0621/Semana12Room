@@ -11,15 +11,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.room.Room
+import ni.edu.uam.inventarioacademico.data.local.InventarioDatabase
 import ni.edu.uam.inventarioacademico.ui.theme.InventarioAcademicoTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var db: InventarioDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        db = Room.databaseBuilder(
+            applicationContext,
+            InventarioDatabase::class.java,
+            "inventario_academico_db"
+        ).build()
+
         enableEdgeToEdge()
+
         setContent {
             InventarioAcademicoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
@@ -31,7 +46,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(
+    name: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = "Hello $name!",
         modifier = modifier
