@@ -70,4 +70,17 @@ class EquipoViewModel(
             )
         }
     }
+    fun actualizarDisponibilidad(
+        id: Int,
+        disponible: Boolean
+    ) {
+
+        viewModelScope.launch {
+
+            repository.actualizarDisponibilidad(
+                id,
+                disponible
+            )
+        }
+    }
 }

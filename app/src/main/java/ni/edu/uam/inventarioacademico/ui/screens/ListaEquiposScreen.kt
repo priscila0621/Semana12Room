@@ -12,10 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ni.edu.uam.inventarioacademico.data.local.entity.Equipo
 
+
 @Composable
 fun ListaEquiposScreen(
     equipos: List<Equipo>,
-    onEliminar: (Equipo) -> Unit
+    onEliminar: (Equipo) -> Unit,
+    onEditar: (Equipo) -> Unit
 ) {
 
     LazyColumn {
@@ -41,6 +43,18 @@ fun ListaEquiposScreen(
                         }
                     ) {
                         Text("Eliminar")
+                    }
+                    Button(
+                        onClick = {
+
+                            onEditar(
+                                equipo.copy(
+                                    nombre = equipo.nombre + " (Editado)"
+                                )
+                            )
+                        }
+                    ) {
+                        Text("Editar")
                     }
                 }
             }

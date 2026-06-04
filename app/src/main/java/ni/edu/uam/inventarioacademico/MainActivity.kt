@@ -88,6 +88,13 @@ class MainActivity : ComponentActivity() {
                                 equipoViewModel.eliminarEquipo(
                                     equipo
                                 )
+                            },
+
+                            onEditarEquipo = { equipo ->
+
+                                equipoViewModel.actualizarEquipo(
+                                    equipo
+                                )
                             }
                         )
 
@@ -102,11 +109,29 @@ class MainActivity : ComponentActivity() {
                                     solicitante,
                                     fecha
                                 )
+
+                                equipoViewModel.actualizarDisponibilidad(
+                                    equipoId,
+                                    false
+                                )
                             }
                         )
 
                         PrestamoScreen(
-                            prestamos = prestamos
+                            prestamos = prestamos,
+
+                            onDevolver = { prestamo ->
+
+                                prestamoViewModel.registrarDevolucion(
+                                    prestamo,
+                                    "2026-06-03"
+                                )
+
+                                equipoViewModel.actualizarDisponibilidad(
+                                    prestamo.equipoId,
+                                    true
+                                )
+                            }
                         )
                     }
                 }

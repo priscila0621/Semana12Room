@@ -36,4 +36,14 @@ WHERE categoria = :categoria
     fun filtrarPorCategoria(
         categoria: String
     ): Flow<List<Equipo>>
+
+    @Query("""
+UPDATE equipos
+SET disponible = :disponible
+WHERE id = :id
+""")
+    suspend fun actualizarDisponibilidad(
+        id: Int,
+        disponible: Boolean
+    )
 }

@@ -20,4 +20,13 @@ class EquipoRepository(
     suspend fun eliminar(equipo: Equipo) {
         dao.eliminarEquipo(equipo)
     }
+    suspend fun actualizarDisponibilidad(
+        id: Int,
+        disponible: Boolean
+    ) {
+        dao.actualizarDisponibilidad(
+            id,
+            disponible
+        )
+    }
 }

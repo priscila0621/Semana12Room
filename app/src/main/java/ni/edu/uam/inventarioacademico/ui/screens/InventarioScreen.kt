@@ -13,7 +13,8 @@ fun InventarioScreen(
         String,
         String
     ) -> Unit,
-    onEliminarEquipo: (Equipo) -> Unit
+    onEliminarEquipo: (Equipo) -> Unit,
+    onEditarEquipo: (Equipo) -> Unit
 ) {
 
     val categoriaPrincipal = equipos
@@ -36,7 +37,8 @@ fun InventarioScreen(
 
         ListaEquiposScreen(
             equipos = equipos,
-            onEliminar = onEliminarEquipo
+            onEliminar = onEliminarEquipo,
+            onEditar = onEditarEquipo
         )
     }
 }
