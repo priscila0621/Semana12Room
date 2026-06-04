@@ -28,4 +28,12 @@ WHERE nombre LIKE '%' || :texto || '%'
 OR numeroSerie LIKE '%' || :texto || '%'
 """)
     fun buscarEquipos(texto: String): Flow<List<Equipo>>
+
+    @Query("""
+SELECT * FROM equipos
+WHERE categoria = :categoria
+""")
+    fun filtrarPorCategoria(
+        categoria: String
+    ): Flow<List<Equipo>>
 }
